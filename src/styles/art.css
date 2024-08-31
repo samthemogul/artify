@@ -4,6 +4,8 @@
     border-bottom: 2px solid #dbdbdb;
     width: 700px;
     justify-content: center;
+    padding: 10px 20px 30px 20px;
+    background-color: #f6f6f6;
 }
 
 .art-image {
@@ -20,6 +22,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px 0;
 }
 .likecomment{
     display: flex;
@@ -41,9 +44,23 @@
     display: flex;
     gap: 10px;
 }
-.heart{
-    font-size: 1.5rem;
+.art-icon {
+    font-size: 2rem;
+    color: #b0b0b0;
 }
-.comment{
+.countlikes {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #b0b0b0;
+}
+
+.art-name {
     font-size: 1.5rem;
+    font-weight: 600;
+    color: #000000;
+}
+.art-description {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #777777;
 }
