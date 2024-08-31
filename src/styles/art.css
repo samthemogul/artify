@@ -1,0 +1,49 @@
+.art-container {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #dbdbdb;
+    width: 700px;
+    justify-content: center;
+}
+
+.art-image {
+    width: 100%px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.art-details {
+    display: flex;
+    align-items: center;
+}
+.like-and-comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.likecomment{
+    display: flex;
+    gap: 10px;
+}
+.like-button{
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.comment-button{
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.countlikes{
+    display: flex;
+    gap: 10px;
+}
+.heart{
+    font-size: 1.5rem;
+}
+.comment{
+    font-size: 1.5rem;
+}

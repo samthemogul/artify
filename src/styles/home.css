@@ -1,0 +1,8 @@
+.arts-wrapper {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
