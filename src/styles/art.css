@@ -6,7 +6,7 @@
     justify-content: center;
     padding: 30px;
     border-radius: 10px;
-    background-color: #f6f6f6;
+    background-color: hsl(0, 0%, 96%);
 }
 .art-header {
     display: flex;

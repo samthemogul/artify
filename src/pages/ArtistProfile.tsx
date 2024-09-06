@@ -5,15 +5,10 @@ import { useState, useEffect } from "react"
 import '../styles/artistprofile.css'
 import { CiInstagram, CiLinkedin } from "react-icons/ci";
 import { FaSquareXTwitter, FaSquareFacebook } from "react-icons/fa6";
+import Header from '../containers/Header'
+import arts from '../constants/arts'
+import { useNavigate } from 'react-router-dom';
 
-
-interface Post {
-  id: number;
-  user_id: number;
-  content: string;
-  timestamp: string;
-  imageUrl: string
-}
 interface UserProfileProps {
   userId: number;
 }
@@ -30,12 +25,23 @@ interface UserData {
 const ArtistProfile: React.FC<UserProfileProps> = ({ userId }) => {
 
   const [ name, setName ] = useState("Ife")
-  const [posts, setPosts] = useState<Post[]>([]);
   const [userData, setUserData] = useState<UserData | null>(null);
 
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId: number) => {
+  
+    navigate(`/arts/id${postId}`);
+  };
+
   return (
-    <div className="profile-page">
-    <img className='profile-img' src={profilePic} alt="Profile" />
+  
+    <div>
+      <div>
+        <Header/>
+      </div>
+      <div className="profile-page">
+      <img className='profile-img' src={profilePic} alt="Profile" />
     <h1>{name}</h1>
     <div className="details">
       <p>Email:{userData?.email}</p>
@@ -51,21 +57,19 @@ const ArtistProfile: React.FC<UserProfileProps> = ({ userId }) => {
     <div className="user-profile">
       <h2>User's Recent Posts</h2>
       <div className="recent-posts">
-        <img src={artimage} alt="" />
-        <img src={artimage} alt="" />
-        <img src={artimage} alt="" />
-        <img src={artimage} alt="" />
-        <img src={artimage} alt="" />
-        <img src={artimage} alt="" />
-        {posts.map((post) => (
-          <div key={post.id} className="post-item">
-            <img src={post.imageUrl || artimage} alt="Post Image" />
-            <p>{post.content}</p>
-            <small>{new Date(post.timestamp).toLocaleString()}</small>
+        {arts.map((art) => (
+          <div key={art.id} className="post-item" onClick={() => handlePostClick(art.id)}>
+            <img src={art.image || artimage} alt=''/>
+            <div className='post-details'>
+            <p>{art.artist}</p>
+            <p>{art.name}</p>
+            </div>
+            {/* <small>{new Date(art.timestamp).toLocaleString()}</small> */}
           </div>
         ))}
       </div>
     </div>
+      </div>
   
     </div>
   )
