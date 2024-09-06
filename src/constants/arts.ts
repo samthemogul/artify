@@ -1,5 +1,7 @@
 import art1 from '../assets/art-1.jpg'  
 import art2 from '../assets/art-2.jpg'
+import art3 from '../assets/art-3.jpeg'
+import art4 from '../assets/art-4.jpeg'
 
 
 export interface Comment {
@@ -37,6 +39,25 @@ const arts: Art[] = [
         image: art2,
         comments: [{ id: 1, comment: "This is a nice Art", replies: [], userId: "aedh"}],
     },
+    {
+        id: 3,
+        name: 'Murrini Sphere',
+        description: 'Glass Painting',
+        artist: 'David Patchen',
+        numberOfLikes: 10,
+        image: art3,
+        comments: [{ id: 1, comment: "This is a nice Art", replies: [], userId: "aedh"}],
+    },
+    {
+        id: 4,
+        name: 'Touch of the Rain',
+        description: 'Oil on canva',
+        artist: 'Leonid Afremov',
+        numberOfLikes: 10,
+        image: art4,
+        comments: [{ id: 1, comment: "This is a nice Art", replies: [], userId: "aedh"}],
+    },
+    
 
 ]
 
