@@ -37,6 +37,15 @@ const arts: Art[] = [
         image: art2,
         comments: [{ id: 1, comment: "This is a nice Art", replies: [], userId: "aedh"}],
     },
+    {
+        id: 3,
+        name: 'The Monalisa',
+        description: 'A painting of a lady smiling',
+        artist: 'Edvard Munch',
+        numberOfLikes: 10,
+        image: art2,
+        comments: [{ id: 1, comment: "This is a nice Art", replies: [], userId: "aedh"}],
+    },
 
 ]
 
