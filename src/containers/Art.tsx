@@ -4,10 +4,10 @@ import { IoHeartOutline } from "react-icons/io5";
 import { IoHeartSharp } from "react-icons/io5";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import profilePic from '../assets/profile.png'
+import profilePic from "../assets/profile.png";
 import { SetStateAction, useState } from "react";
 import arts from "../constants/arts";
-
+import CommentPopup from "../pages/CommentPoP";
 interface ArtProps {
   key: string;
   art: ArtType;
@@ -15,15 +15,21 @@ interface ArtProps {
 
 const Art = ({ art }: ArtProps) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [ comment, setComment ] = useState("")
+  const [comment, setComment] = useState("");
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   const handleLike = () => {
     setIsLiked((prev) => !prev);
   };
 
-  const handleChangeComment = (event: { target: { value: SetStateAction<string>; }; }) => {
-    setComment(event.target.value)
-  }
+  const handleChangeComment = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setComment(event.target.value);
+  };
+  const togglePopup = () => {
+    setPopupVisible(!isPopupVisible);
+  };
   return (
     <div className="art-container">
       <div className="art-header">
@@ -50,7 +56,7 @@ const Art = ({ art }: ArtProps) => {
             </button>
           </div>
           <div>
-            <button className="comment-button">
+            <button className="comment-button" onClick={togglePopup}>
               <IoChatbubbleOutline className="art-icon" />
             </button>
           </div>
@@ -76,9 +82,18 @@ const Art = ({ art }: ArtProps) => {
           : `View all ${art.comments.length} comments`}
       </button>
       <div className="comment-section">
-        <input className="comment-input" value={comment} onChange={handleChangeComment} type="text" placeholder="Add a comment..." />
-        { comment.length > 2 ? <button className="post-comment">Post</button> : null}
+        <input
+          className="comment-input"
+          value={comment}
+          onChange={handleChangeComment}
+          type="text"
+          placeholder="Add a comment..."
+        />
+        {comment.length > 2 ? (
+          <button className="post-comment">Post</button>
+        ) : null}
       </div>
+      {isPopupVisible && <CommentPopup />}
     </div>
   );
 };

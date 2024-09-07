@@ -1,0 +1,107 @@
+/* styles.css */
+
+/* Button to show the popup */
+.popup-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.popup-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Overlay background for the popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup box */
+.popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
+
+/* Title of the popup */
+.popup h2 {
+  margin-top: 0;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* List of comments */
+.comment-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding-right: 10px;
+}
+
+/* Each comment */
+.comment-list p {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Input field for new comment */
+.popup input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  font-size: 16px;
+}
+
+/* Button to add a new comment */
+.popup button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+/* Button to close the popup */
+.close-btn {
+  background-color: red;
+  margin-left: 10px;
+}
+
+.close-btn:hover {
+  background-color: darkred;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 600px) {
+  .popup {
+    width: 90%;
+  }
+}
