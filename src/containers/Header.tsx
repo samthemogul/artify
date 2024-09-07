@@ -2,14 +2,18 @@ import SearchBar from '../components/SearchBar'
 import UserInfo from '../components/UserInfo'
 import artify from '../assets/artify.png'
 import '../styles/header.css'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
+  const goToHome =() => {
+
+  }
   return (
     <header className='header'>
-        <div className='artify'>
+        <Link to={"/"} className='artify'>
           <img className='artifylogo' src={artify} alt="" />
             <h1 className='artifyname'>Artify</h1>
-        </div>
+        </Link>
         <div className='header-info'>
             <SearchBar />
             <UserInfo />

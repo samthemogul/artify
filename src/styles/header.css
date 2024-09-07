@@ -23,7 +23,8 @@
 .artifyname{
     font-style: italic;
     font-size: 1.5rem;
-    font-family: 'Times New Roman', Times, serif;  
+    font-family: 'Times New Roman', Times, serif; 
+    color: black 
 }
 .artifylogo{
     width: 50px;

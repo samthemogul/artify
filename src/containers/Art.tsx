@@ -6,7 +6,8 @@ import { IoChatbubbleOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import profilePic from "../assets/profile.png";
 import { SetStateAction, useState } from "react";
-import arts from "../constants/arts";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../api/firebase";
 import CommentPopup from "../pages/CommentPoP";
 interface ArtProps {
   key: string;
@@ -15,11 +16,22 @@ interface ArtProps {
 
 const Art = ({ art }: ArtProps) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [likesNumber, setLikesNumber ] = useState<number>(art.numberOfLikes)
   const [comment, setComment] = useState("");
   const [isPopupVisible, setPopupVisible] = useState(false);
 
   const handleLike = () => {
     setIsLiked((prev) => !prev);
+    if (isLiked) {
+      setLikesNumber(prev => prev - 1)
+      } else {
+        setLikesNumber(prev => prev + 1)
+        }
+    setTimeout(() => {
+      updateDoc(doc(db, "arts", art.id), {
+        likes: isLiked ? art.numberOfLikes - 1 : art.numberOfLikes + 1,
+        });
+    }, 3000)
   };
 
   const handleChangeComment = (event: {
@@ -32,7 +44,7 @@ const Art = ({ art }: ArtProps) => {
   };
   return (
     <div className="art-container">
-      <div className="art-header">
+      {/* <div className="art-header">
         <div className="art-artist">
           <img className="art-artist-pic" src={profilePic} alt="profile" />
           <p className="artist-name">{art.artist}</p>
@@ -42,7 +54,7 @@ const Art = ({ art }: ArtProps) => {
             <HiOutlineDotsVertical className="art-menu-icon" />
           </button>
         </div>
-      </div>
+      </div> */}
       <img className="art-image" src={art.image} alt={art.name} />
       <div className="like-and-comment">
         <div className="likecomment">
@@ -63,7 +75,7 @@ const Art = ({ art }: ArtProps) => {
         </div>
 
         <div className="countlikes">
-          <p className="">{art.numberOfLikes} likes</p>
+          <p className="">{likesNumber} likes</p>
         </div>
       </div>
       <h3 className="art-name">{art.name}</h3>
@@ -93,7 +105,7 @@ const Art = ({ art }: ArtProps) => {
           <button className="post-comment">Post</button>
         ) : null}
       </div>
-      {isPopupVisible && <CommentPopup />}
+      {<CommentPopup isPopupVisible={isPopupVisible} togglePopup={togglePopup} />}
     </div>
   );
 };
