@@ -11,7 +11,7 @@ import {
 import { redirect, useNavigate } from "react-router-dom";
 import { auth, db } from "../api/firebase";
 import { addDoc, collection } from "firebase/firestore";
-import { BouncingBalls } from "loaders-ui";
+// import { BouncingBalls } from "loaders-ui";
 
 interface formType {
   name: string;

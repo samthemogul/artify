@@ -68,7 +68,7 @@ const Art = ({ art }: ArtProps) => {
             </button>
           </div>
           <div>
-            <button className="comment-button" onClick={togglePopup}>
+            <button title="outline" className="comment-button" onClick={togglePopup}>
               <IoChatbubbleOutline className="art-icon" />
             </button>
           </div>

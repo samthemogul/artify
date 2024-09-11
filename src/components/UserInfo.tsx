@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../styles/userinfo.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { signInWithPopup } from "firebase/auth";
 import { googleProvider, auth } from "../api/firebase";
+import UserProfile from "../pages/UserProfile";
 
 const UserInfo = () => {
   const getCachedUser = () => {
@@ -16,12 +17,18 @@ const UserInfo = () => {
   const [cachedUser] = useState(getCachedUser());
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(!!cachedUser?.name.length);
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false); 
   const { saveUser } = useUser() || {
     user: null,
     saveUser: () => {},
   };
 
+  const togglePopup = () => {
+    setIsPopupVisible((prev) => !prev);
+  };
+
   const signInWithGoogle = async () => {
+    try{
     await signInWithPopup(auth, googleProvider);
 
     if (auth.currentUser) {
@@ -34,6 +41,10 @@ const UserInfo = () => {
       localStorage.setItem("user", JSON.stringify(signedInUser));
       setIsSignedIn(true);
       saveUser(signedInUser);
+      togglePopup();
+    }
+    } catch (error) {
+      console.error("Google Sign-In Error: ", error);
     }
   };
 
@@ -44,10 +55,9 @@ const UserInfo = () => {
     const user = localStorage.getItem("user");
     if (user) {
       setIsSignedIn(true);
-      // get user object from local storage and save the user
       saveUser(JSON.parse(user));
     }
-  }, []);
+  }, [saveUser]);
 
   useEffect(() => {
     if (cachedUser) {
@@ -60,10 +70,10 @@ const UserInfo = () => {
         <div className="signedinmessage">
           {window.location.pathname == "/new" ? null : (
             <button onClick={goToUpload} className="signinbtn">
-              <p className="signInText">Upload Art</p>
+              <p className="signInText">Upload</p>
             </button>
           )}
-          <h3 className="welcometext">
+           <h3 className="welcometext">
             Welcome,{" "}
             {cachedUser?.name
               ? cachedUser?.name
@@ -82,6 +92,12 @@ const UserInfo = () => {
                 : auth.currentUser?.displayName
             }
           />
+
+          {isPopupVisible && (
+            <UserProfile 
+            isPopupVisible={isPopupVisible} 
+            togglePopup={togglePopup} />
+          )}
         </div>
       ) : (
         <div>
