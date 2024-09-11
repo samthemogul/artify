@@ -8,7 +8,7 @@ const SearchBar = () => {
     <div className='searchbar'>
       <input className='searchinput' type="text" placeholder="Search for an Art..."
       />
-      <button className='searchbutton'><IoSearch className='searchicon'/></button>
+      <button title='search' className='searchbutton'><IoSearch className='searchicon'/></button>
     </div>
   )
 }

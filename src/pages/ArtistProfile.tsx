@@ -82,10 +82,10 @@ const [isPopupVisible, setPopupVisible] = useState(false);
         </div>
         {isPopupVisible && (
           <UserProfile
-            isPopupVisible={isPopupVisible}
-            togglePopup={togglePopupHandler}
-            updateUserDetails={updateUserDetails}
-            userDetails={details}
+          isPopupVisible={isPopupVisible}
+          togglePopup={togglePopupHandler}
+          updateUserDetails={updateUserDetails}
+          userDetails={details}
           />
         )}
       </div>

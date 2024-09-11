@@ -3,8 +3,6 @@ import "../styles/art.css";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeartSharp } from "react-icons/io5";
 import { IoChatbubbleOutline } from "react-icons/io5";
-import { HiOutlineDotsVertical } from "react-icons/hi";
-import profilePic from "../assets/profile.png";
 import { SetStateAction, useState } from "react";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../api/firebase";

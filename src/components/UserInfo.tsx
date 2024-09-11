@@ -14,7 +14,7 @@ const UserInfo = () => {
       return JSON.parse(cachedUserString || "") || null;
     }
   };
-  const [cachedUser] = useState(getCachedUser());
+  const [cachedUser, setCachedUser] = useState(getCachedUser());
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(!!cachedUser?.name.length);
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false); 
@@ -50,6 +50,19 @@ const UserInfo = () => {
 
   const goToUpload = () => {
     navigate("/new");
+  };
+
+
+  const updateUserDetails = (updatedDetails: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  }) => {
+    const updatedUser = { ...cachedUser, ...updatedDetails };
+    setCachedUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setIsPopupVisible(false);
   };
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -94,9 +107,17 @@ const UserInfo = () => {
           />
 
           {isPopupVisible && (
-            <UserProfile 
-            isPopupVisible={isPopupVisible} 
-            togglePopup={togglePopup} />
+            <UserProfile
+              isPopupVisible={isPopupVisible}
+              togglePopup={togglePopup}
+              userDetails={{
+                name: cachedUser?.name || "",
+                email: cachedUser?.email || "",
+                phone: "",
+                address: "",
+              }}
+              updateUserDetails={updateUserDetails}
+            />
           )}
         </div>
       ) : (
