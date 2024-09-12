@@ -42,6 +42,7 @@ const UserInfo = () => {
       setIsSignedIn(true);
       saveUser(signedInUser);
       togglePopup();
+      navigate("/artist/userId");
     }
     } catch (error) {
       console.error("Google Sign-In Error: ", error);

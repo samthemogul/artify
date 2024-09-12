@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import profilePic from "../assets/profile.png";
 import artimage from "../assets/art-1.jpg";
 import "../styles/artistprofile.css";
 import Header from '../containers/Header';
 import arts from '../constants/arts';
 import { useNavigate } from 'react-router-dom';
+import { auth } from "../api/firebase";
 import UserProfile from "../pages/UserProfile";
+import SignOut from "../pages/SignOut";
 
 interface UserDetails {
   name: string;
@@ -20,10 +21,18 @@ interface ArtistProfileProps {
   togglePopup: () => void;
 }
 
-const ArtistProfile: React.FC<ArtistProfileProps> = ({ userId, userDetails }) => {
+const getCachedUser = () => {
+  const cachedUserString = localStorage.getItem("user");
+  if (cachedUserString) {
+    return JSON.parse(cachedUserString) || null;
+  }
+  return null;
+};
 
-const [isPopupVisible, setPopupVisible] = useState(false);
+const ArtistProfile: React.FC<ArtistProfileProps> = ({ userDetails }) => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
   const [details, setDetails] = useState(userDetails);
+  const [cachedUser, setCachedUser] = useState(getCachedUser());
 
   const navigate = useNavigate();
 
@@ -33,23 +42,20 @@ const [isPopupVisible, setPopupVisible] = useState(false);
   };
 
   useEffect(() => {
-    setDetails(userDetails)
-  }, [userDetails])
+    setDetails(userDetails);
+  }, [userDetails]);
 
   const togglePopupHandler = () => {
     setPopupVisible(!isPopupVisible);
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   updateUserDetails({name, email, phone, address });
-  // };
-
-  const updateUserDetails = (updatedDetails: {name:string, email: string; phone: string; address: string }) => {
+  const updateUserDetails = (updatedDetails: { name: string; email: string; phone: string; address: string }) => {
     setDetails((prevDetails) => ({
       ...prevDetails,
       ...updatedDetails,
     }));
+    localStorage.setItem("user", JSON.stringify(updatedDetails));
+    setCachedUser(updatedDetails);
     setPopupVisible(false);
   };
 
@@ -57,16 +63,35 @@ const [isPopupVisible, setPopupVisible] = useState(false);
     <div>
       <Header />
       <div className="profile-page">
-        <img className='profile-img' src={profilePic} alt="Profile" />
+     <div className="profile">
+      <div>
+      <img
+          className="profile-img"
+          src={
+            cachedUser?.imageUrl
+              ? cachedUser.imageUrl
+              : auth.currentUser?.photoURL || ""
+          }
+          alt={
+            cachedUser?.name
+              ? cachedUser.name
+              : auth.currentUser?.displayName || ""
+          }
+        />
+      </div>
+      <div className="logout">
+        <button className="editprofile" title="submit" type="submit" onClick={togglePopupHandler}>
+          Edit Profile
+        </button>
+          <SignOut/>
+        </div>
+     </div>
         <h1>{details.name}</h1>
         <div className="details">
           <p>{details.email}</p>
           <p>{details.phone}</p>
           <p>{details.address}</p>
         </div>
-        <button className="editprofile" title="submit" type="submit" onClick={togglePopupHandler}>
-          Edit Profile
-        </button>
         <div className="user-profile">
           <h2>User's Recent Posts</h2>
           <div className="recent-posts">
@@ -82,15 +107,18 @@ const [isPopupVisible, setPopupVisible] = useState(false);
         </div>
         {isPopupVisible && (
           <UserProfile
-          isPopupVisible={isPopupVisible}
-          togglePopup={togglePopupHandler}
-          updateUserDetails={updateUserDetails}
-          userDetails={details}
+            isPopupVisible={isPopupVisible}
+            togglePopup={togglePopupHandler}
+            updateUserDetails={updateUserDetails}
+            userDetails={details}
           />
         )}
       </div>
     </div>
   );
+
+
 };
+
 
 export default ArtistProfile;

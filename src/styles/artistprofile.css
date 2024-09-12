@@ -88,3 +88,17 @@
     cursor: pointer;
     transition: 0.3s all ease;
 }
+.logout{
+    display: grid;
+    gap: 2px;
+}
+.profile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 480px) {
+    .profile-page{
+        padding-top: 130px;
+    }
+}
