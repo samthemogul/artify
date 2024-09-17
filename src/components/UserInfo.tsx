@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../styles/userinfo.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { signInWithPopup } from "firebase/auth";
 import { googleProvider, auth } from "../api/firebase";
@@ -17,7 +17,7 @@ const UserInfo = () => {
   const [cachedUser, setCachedUser] = useState(getCachedUser());
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(!!cachedUser?.name.length);
-  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false); 
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const { saveUser } = useUser() || {
     user: null,
     saveUser: () => {},
@@ -28,22 +28,23 @@ const UserInfo = () => {
   };
 
   const signInWithGoogle = async () => {
-    try{
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
 
-    if (auth.currentUser) {
-      const signedInUser = {
-        id: auth.currentUser.uid,
-        name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-        imageUrl: auth.currentUser.photoURL,
-      };
-      localStorage.setItem("user", JSON.stringify(signedInUser));
-      setIsSignedIn(true);
-      saveUser(signedInUser);
-      togglePopup();
-      navigate("/artist/userId");
-    }
+      if (auth.currentUser) {
+        const signedInUser = {
+          id: auth.currentUser.uid,
+          name: auth.currentUser.displayName,
+          email: auth.currentUser.email,
+          imageUrl: auth.currentUser.photoURL,
+        };
+
+        localStorage.setItem("user", JSON.stringify(signedInUser));
+        setIsSignedIn(true);
+        saveUser(signedInUser);
+        togglePopup();
+        navigate(`/artist/${auth.currentUser.displayName}`);
+      }
     } catch (error) {
       console.error("Google Sign-In Error: ", error);
     }
@@ -52,7 +53,6 @@ const UserInfo = () => {
   const goToUpload = () => {
     navigate("/new");
   };
-
 
   const updateUserDetails = (updatedDetails: {
     name: string;
@@ -68,10 +68,11 @@ const UserInfo = () => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
+      console.log(JSON.parse(user));
       setIsSignedIn(true);
       saveUser(JSON.parse(user));
     }
-  }, [saveUser]);
+  }, []);
 
   useEffect(() => {
     if (cachedUser) {
@@ -87,14 +88,14 @@ const UserInfo = () => {
               <p className="signInText">Upload</p>
             </button>
           )}
-           <h3 className="welcometext">
+          <h3 className="welcometext">
             Welcome,{" "}
             {cachedUser?.name
               ? cachedUser?.name
               : auth.currentUser?.displayName}
           </h3>
           <img
-            className="profilepic"
+          className='profilepic'
             src={
               cachedUser?.imageUrl
                 ? cachedUser?.imageUrl
