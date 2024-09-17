@@ -1,78 +1,124 @@
-import React from "react";
-import profilePic from "../assets/profile.png";
+import React, { useState, useEffect } from "react";
 import artimage from "../assets/art-1.jpg";
-import { useState, useEffect } from "react";
 import "../styles/artistprofile.css";
-import { CiInstagram, CiLinkedin } from "react-icons/ci";
-import { FaSquareXTwitter, FaSquareFacebook } from "react-icons/fa6";
-import Header from '../containers/Header'
-import arts from '../constants/arts'
+import Header from '../containers/Header';
+import arts from '../constants/arts';
 import { useNavigate } from 'react-router-dom';
+import { auth } from "../api/firebase";
+import UserProfile from "../pages/UserProfile";
+import SignOut from "../pages/SignOut";
 
-interface UserProfileProps {
-  userId: number;
-}
-interface UserData {
+interface UserDetails {
   name: string;
   email: string;
   phone: string;
   address: string;
-  twitter: string;
-  linkedin: string;
-  facebook: string;
-  instagram: string;
 }
-const ArtistProfile: React.FC<UserProfileProps> = ({ userId }) => {
 
-  const [ name, setName ] = useState("Ife")
-  const [userData, setUserData] = useState<UserData | null>(null);
+interface ArtistProfileProps {
+  userId: number;
+  userDetails: UserDetails;
+  togglePopup: () => void;
+}
+
+const getCachedUser = () => {
+  const cachedUserString = localStorage.getItem("user");
+  if (cachedUserString) {
+    return JSON.parse(cachedUserString) || null;
+  }
+  return null;
+};
+
+const ArtistProfile: React.FC<ArtistProfileProps> = ({ userDetails }) => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [details, setDetails] = useState(userDetails);
+  const [cachedUser, setCachedUser] = useState(getCachedUser());
 
   const navigate = useNavigate();
 
-  const handlePostClick = (postId: number) => {
-  
-    navigate(`/arts/id${postId}`);
+  const handlePostClick = (postId: string | number) => {
+    const numericPostId = typeof postId === 'string' ? Number(postId) : postId;
+    navigate(`/arts/id${numericPostId}`);
+  };
+
+  useEffect(() => {
+    setDetails(userDetails);
+  }, [userDetails]);
+
+  const togglePopupHandler = () => {
+    setPopupVisible(!isPopupVisible);
+  };
+
+  const updateUserDetails = (updatedDetails: { name: string; email: string; phone: string; address: string }) => {
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      ...updatedDetails,
+    }));
+    localStorage.setItem("user", JSON.stringify(updatedDetails));
+    setCachedUser(updatedDetails);
+    setPopupVisible(false);
   };
 
   return (
-  
     <div>
-      <div>
-        <Header/>
-      </div>
+      <Header />
       <div className="profile-page">
-      <img className='profile-img' src={profilePic} alt="Profile" />
-    <h1>{name}</h1>
-    <div className="details">
-      <p>Email:{userData?.email}</p>
-      <p>Phone:{userData?.phone}</p>
-      <p>Address:{userData?.address}</p>
-    </div>
-    <div className="sociallinks">
-      <a href={userData?.twitter}><FaSquareXTwitter className='linkimg' /></a>
-      <a href={userData?.linkedin}><CiLinkedin className='linkimg' /></a>
-      <a href={userData?.facebook}><FaSquareFacebook className='linkimg' /></a>
-      <a href={userData?.instagram}><CiInstagram className='linkimg' /></a>
-    </div>
-    <div className="user-profile">
-      <h2>User's Recent Posts</h2>
-      <div className="recent-posts">
-        {arts.map((art) => (
-          <div key={art.id} className="post-item" onClick={() => handlePostClick(art.id)}>
-            <img src={art.image || artimage} alt=''/>
-            <div className='post-details'>
-            <p>{art.artist}</p>
-            <p>{art.name}</p>
-            </div>
-            {/* <small>{new Date(art.timestamp).toLocaleString()}</small> */}
+     <div className="profile">
+      <div>
+      <img
+          className="profile-img"
+          src={
+            cachedUser?.imageUrl
+              ? cachedUser.imageUrl
+              : auth.currentUser?.photoURL || ""
+          }
+          alt={
+            cachedUser?.name
+              ? cachedUser.name
+              : auth.currentUser?.displayName || ""
+          }
+        />
+      </div>
+      <div className="logout">
+        <button className="editprofile" title="submit" type="submit" onClick={togglePopupHandler}>
+          Edit Profile
+        </button>
+          <SignOut/>
+        </div>
+     </div>
+        <h1>{details.name}</h1>
+        <div className="details">
+          <p>{details.email}</p>
+          <p>{details.phone}</p>
+          <p>{details.address}</p>
+        </div>
+        <div className="user-profile">
+          <h2>User's Recent Posts</h2>
+          <div className="recent-posts">
+            {arts.map((art) => (
+              <div key={art.id} className="post-item" onClick={() => handlePostClick(art.id)}>
+                <img src={art.image || artimage} alt='' />
+                <div className='post-details'>
+                  <p>{art.name}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        {isPopupVisible && (
+          <UserProfile
+            isPopupVisible={isPopupVisible}
+            togglePopup={togglePopupHandler}
+            updateUserDetails={updateUserDetails}
+            userDetails={details}
+          />
+        )}
       </div>
-    </div>
-      </div>
-  
     </div>
   );
+
+
 };
+
 
 export default ArtistProfile;

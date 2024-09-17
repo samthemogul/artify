@@ -62,6 +62,8 @@ const CommentPopup: React.FC<CommentPopupProps> = ({ isPopupVisible, togglePopup
         ) : null}
       </div>
             <button
+              title="post"
+              type="submit"
               className="close-btn"
               onClick={togglePopup}
             >

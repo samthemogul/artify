@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../styles/userinfo.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { signInWithPopup } from "firebase/auth";
 import { googleProvider, auth } from "../api/firebase";
+import UserProfile from "../pages/UserProfile";
 
 const UserInfo = () => {
   const getCachedUser = () => {
@@ -13,15 +14,21 @@ const UserInfo = () => {
       return JSON.parse(cachedUserString || "") || null;
     }
   };
-  const [cachedUser] = useState(getCachedUser());
+  const [cachedUser, setCachedUser] = useState(getCachedUser());
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(!!cachedUser?.name.length);
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false); 
   const { saveUser } = useUser() || {
     user: null,
     saveUser: () => {},
   };
 
+  const togglePopup = () => {
+    setIsPopupVisible((prev) => !prev);
+  };
+
   const signInWithGoogle = async () => {
+    try{
     await signInWithPopup(auth, googleProvider);
 
     if (auth.currentUser) {
@@ -34,20 +41,37 @@ const UserInfo = () => {
       localStorage.setItem("user", JSON.stringify(signedInUser));
       setIsSignedIn(true);
       saveUser(signedInUser);
+      togglePopup();
+      navigate("/artist/userId");
+    }
+    } catch (error) {
+      console.error("Google Sign-In Error: ", error);
     }
   };
 
   const goToUpload = () => {
     navigate("/new");
   };
+
+
+  const updateUserDetails = (updatedDetails: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  }) => {
+    const updatedUser = { ...cachedUser, ...updatedDetails };
+    setCachedUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setIsPopupVisible(false);
+  };
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setIsSignedIn(true);
-      // get user object from local storage and save the user
       saveUser(JSON.parse(user));
     }
-  }, []);
+  }, [saveUser]);
 
   useEffect(() => {
     if (cachedUser) {
@@ -60,10 +84,10 @@ const UserInfo = () => {
         <div className="signedinmessage">
           {window.location.pathname == "/new" ? null : (
             <button onClick={goToUpload} className="signinbtn">
-              <p className="signInText">Upload Art</p>
+              <p className="signInText">Upload</p>
             </button>
           )}
-          <h3 className="welcometext">
+           <h3 className="welcometext">
             Welcome,{" "}
             {cachedUser?.name
               ? cachedUser?.name
@@ -82,6 +106,20 @@ const UserInfo = () => {
                 : auth.currentUser?.displayName
             }
           />
+
+          {isPopupVisible && (
+            <UserProfile
+              isPopupVisible={isPopupVisible}
+              togglePopup={togglePopup}
+              userDetails={{
+                name: cachedUser?.name || "",
+                email: cachedUser?.email || "",
+                phone: "",
+                address: "",
+              }}
+              updateUserDetails={updateUserDetails}
+            />
+          )}
         </div>
       ) : (
         <div>

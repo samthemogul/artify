@@ -42,3 +42,49 @@
     font-size: 1rem;
     font-weight: 500;
 }
+
+@media (max-width: 768px) {
+    .welcometext {
+        font-size: 12px; 
+    }
+    .profilepic {
+        width: 40px; 
+        height: 40px;
+    }
+    .signinbtn {
+        padding: 12px 15px; 
+        gap: 10px;
+        border-radius: 40px; 
+    }
+    .signInText {
+        font-size: 0.9rem; 
+    }
+    .googleIcon {
+        font-size: 1rem; 
+    }
+}
+
+@media (max-width: 480px) {
+    .signedinmessage {
+        flex-direction: column; 
+        gap: 5px;
+    }
+    .welcometext {
+        font-size: 11px;
+    }
+    .profilepic {
+        width: 35px; 
+        height: 35px;
+    }
+    .signinbtn {
+        padding: 10px 12px; 
+        gap: 8px;
+        border-radius: 35px;
+    }
+    .signInText {
+        font-size: 0.8rem;
+    }
+    .googleIcon {
+        font-size: 0.9rem;
+    }
+}

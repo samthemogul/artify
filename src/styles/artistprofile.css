@@ -80,3 +80,25 @@
     font-size: 14px;
     color: #000000;
 }
+.editprofile{
+    padding: 8px;
+    border: none;
+    background-color: rgb(0, 0, 0);
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s all ease;
+}
+.logout{
+    display: grid;
+    gap: 2px;
+}
+.profile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 480px) {
+    .profile-page{
+        padding-top: 130px;
+    }
+}
