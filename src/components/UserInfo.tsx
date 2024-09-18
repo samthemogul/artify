@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../styles/userinfo.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { signInWithPopup } from "firebase/auth";
 import { googleProvider, auth } from "../api/firebase";
@@ -36,13 +36,14 @@ const UserInfo = () => {
         id: auth.currentUser.uid,
         name: auth.currentUser.displayName,
         email: auth.currentUser.email,
+        phone: auth.currentUser.phoneNumber,
         imageUrl: auth.currentUser.photoURL,
       };
       localStorage.setItem("user", JSON.stringify(signedInUser));
       setIsSignedIn(true);
       saveUser(signedInUser);
       togglePopup();
-      navigate("/artist/userId");
+      navigate(`/artists/${auth.currentUser.uid}`);
     }
     } catch (error) {
       console.error("Google Sign-In Error: ", error);
@@ -52,7 +53,6 @@ const UserInfo = () => {
   const goToUpload = () => {
     navigate("/new");
   };
-
 
   const updateUserDetails = (updatedDetails: {
     name: string;
@@ -78,6 +78,7 @@ const UserInfo = () => {
       setIsSignedIn(true);
     }
   }, []);
+
   return (
     <div className="userinfocon">
       {isSignedIn ? (
@@ -88,25 +89,16 @@ const UserInfo = () => {
             </button>
           )}
            <h3 className="welcometext">
-            Welcome,{" "}
-            {cachedUser?.name
-              ? cachedUser?.name
-              : auth.currentUser?.displayName}
+            {cachedUser?.name ? (
+              <Link className="username" to={`/artists/${cachedUser.id}`}>
+                {cachedUser.name}
+              </Link>
+            ) : auth.currentUser?.displayName ? (
+              <Link to={`/artists/${auth.currentUser.uid}`}>
+                {auth.currentUser.displayName}
+              </Link>
+            ) : null}
           </h3>
-          <img
-            className="profilepic"
-            src={
-              cachedUser?.imageUrl
-                ? cachedUser?.imageUrl
-                : auth.currentUser?.photoURL || ""
-            }
-            alt={
-              cachedUser?.name
-                ? cachedUser?.name
-                : auth.currentUser?.displayName
-            }
-          />
-
           {isPopupVisible && (
             <UserProfile
               isPopupVisible={isPopupVisible}
@@ -114,8 +106,8 @@ const UserInfo = () => {
               userDetails={{
                 name: cachedUser?.name || "",
                 email: cachedUser?.email || "",
-                phone: "",
-                address: "",
+                phone: cachedUser?.phone || "",
+                address:  "",
               }}
               updateUserDetails={updateUserDetails}
             />

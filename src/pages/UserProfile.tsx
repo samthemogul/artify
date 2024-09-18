@@ -64,14 +64,14 @@ const UserProfile: React.FC<UserProfileProps> = ({userDetails, togglePopup, upda
           placeholder="Phone" 
           onChange={handleChange}/>
 
-          <input 
+          {/* <input 
           type="text"
           name="address" 
           value={formDetails.address}
           placeholder="Address"
-          onChange={handleChange}/>
+          onChange={handleChange}/> */}
           <div>
-          <button type="submit">Save</button>
+          <button className='save' type="submit">Save</button>
         </div>
         </form>
         </div>
