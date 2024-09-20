@@ -5,9 +5,12 @@ import { IoHeartSharp } from "react-icons/io5";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import profilePic from "../assets/profile.png";
-import { SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SetStateAction, useEffect, useState } from "react";
 import arts from "../constants/arts";
 import CommentPopup from "../pages/CommentPoP";
+import { collection, addDoc } from "firebase/firestore";
+import { db, auth } from "../firebase-config";
 interface ArtProps {
   key: string;
   art: ArtType;
@@ -18,6 +21,33 @@ const Art = ({ art }: ArtProps) => {
   const [comment, setComment] = useState("");
   const [isPopupVisible, setPopupVisible] = useState(false);
 
+  let navigate = useNavigate();
+  const commentsCollectionRef = collection(db, "comments");
+  const createPost = async () => {
+    if (comment.trim()) {
+      await addDoc(commentsCollectionRef, {
+        comment,
+        author: {
+          name: auth.currentUser?.displayName || "Anonymous",
+          id: auth.currentUser?.uid || "unknown",
+        },
+        artId: art.id,
+      });
+      setComment("");
+      navigate("/");
+    }
+
+    useEffect(() => {
+      if (!auth) {
+        navigate("/");
+      }
+    }, []);
+  // };
+  // const handleComment = (event: {
+  //   target: { value: SetStateAction<string> };
+  // }) => {
+  //   setpostComment(event.target.value);
+  // }; //Redundant Function
   const handleLike = () => {
     setIsLiked((prev) => !prev);
   };
@@ -90,7 +120,9 @@ const Art = ({ art }: ArtProps) => {
           placeholder="Add a comment..."
         />
         {comment.length > 2 ? (
-          <button className="post-comment">Post</button>
+          <button className="post-comment" onClick={createPost}>
+            Post
+          </button>
         ) : null}
       </div>
       {isPopupVisible && <CommentPopup />}
