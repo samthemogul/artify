@@ -26,7 +26,6 @@ function App() {
         <Route path="/new" element={<UploadFile />} />
 
         <Route 
-          path="/artist/:userId" 
           element={
             <ArtistProfile 
               userId={1}

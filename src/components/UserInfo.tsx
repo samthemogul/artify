@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import "../styles/userinfo.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { signInWithPopup } from "firebase/auth";
 import { googleProvider, auth } from "../api/firebase";
@@ -31,20 +31,21 @@ const UserInfo = () => {
     try {
       await signInWithPopup(auth, googleProvider);
 
-      if (auth.currentUser) {
-        const signedInUser = {
-          id: auth.currentUser.uid,
-          name: auth.currentUser.displayName,
-          email: auth.currentUser.email,
-          imageUrl: auth.currentUser.photoURL,
-        };
+    if (auth.currentUser) {
+      const signedInUser = {
+        id: auth.currentUser.uid,
+        name: auth.currentUser.displayName,
+        email: auth.currentUser.email,
+        phone: auth.currentUser.phoneNumber,
+        imageUrl: auth.currentUser.photoURL,
+      };
+      localStorage.setItem("user", JSON.stringify(signedInUser));
+      setIsSignedIn(true);
+      saveUser(signedInUser);
+      togglePopup();
+      navigate(`/artists/${auth.currentUser.uid}`);
+    }
 
-        localStorage.setItem("user", JSON.stringify(signedInUser));
-        setIsSignedIn(true);
-        saveUser(signedInUser);
-        togglePopup();
-        navigate(`/artist/${auth.currentUser.displayName}`);
-      }
     } catch (error) {
       console.error("Google Sign-In Error: ", error);
     }
@@ -79,6 +80,7 @@ const UserInfo = () => {
       setIsSignedIn(true);
     }
   }, []);
+
   return (
     <div className="userinfocon">
       {isSignedIn ? (
@@ -88,11 +90,16 @@ const UserInfo = () => {
               <p className="signInText">Upload</p>
             </button>
           )}
-          <h3 className="welcometext">
-            Welcome,{" "}
-            {cachedUser?.name
-              ? cachedUser?.name
-              : auth.currentUser?.displayName}
+           <h3 className="welcometext">
+            {cachedUser?.name ? (
+              <Link className="username" to={`/artists/${cachedUser.id}`}>
+                {cachedUser.name}
+              </Link>
+            ) : auth.currentUser?.displayName ? (
+              <Link to={`/artists/${auth.currentUser.uid}`}>
+                {auth.currentUser.displayName}
+              </Link>
+            ) : null}
           </h3>
           <img
           className='profilepic'
@@ -115,8 +122,8 @@ const UserInfo = () => {
               userDetails={{
                 name: cachedUser?.name || "",
                 email: cachedUser?.email || "",
-                phone: "",
-                address: "",
+                phone: cachedUser?.phone || "",
+                address:  "",
               }}
               updateUserDetails={updateUserDetails}
             />

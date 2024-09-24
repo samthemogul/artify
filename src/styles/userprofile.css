@@ -15,8 +15,12 @@
     width: 400px;
     text-align: center;
   }
-  button {
+  .save{
+    font-size: medium;
+    font-weight: bold;
+    width: 50%;
     border: none;
+    padding: 10px;
     background-color: aquamarine;
     color: #000000;
     align-items: center;

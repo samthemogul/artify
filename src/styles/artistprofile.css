@@ -3,9 +3,14 @@
     margin: 0 auto;
     padding-top: 100px;
 }
+.profile{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
 .profile-img {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -15,21 +20,7 @@
 }
 .details p {
     font-size: 16px;
-    color: #666;
-}
-.sociallinks {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-}
-.sociallinks a {
-    text-decoration: none;
-    color: #666;
-}
-.linkimg {
-    font-size: 1.5rem;
-    color: #000000;
-    cursor: pointer;
+    color: #292929;
 }
 .user-profile {
     text-align: center;
@@ -44,7 +35,7 @@
     margin-top: 20px;
     padding: 30px;
     border-radius: 10px;
-    background-color: #aaaaaa;
+    background-color: #f1f1f1;
 }
 .post-item {
     position: relative;
@@ -71,6 +62,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    /* background-color: #000000; */
 }
 .post-item:hover .post-details {
     opacity: 1;
@@ -81,24 +73,45 @@
     color: #000000;
 }
 .editprofile{
-    padding: 8px;
+    padding: 10px;
+    width: 15%;
+    /* height: 15%; */
     border: none;
-    background-color: rgb(0, 0, 0);
-    color: #ffffff;
+    background-color: #f1f1f1;
+    color: #000000;
     cursor: pointer;
-    transition: 0.3s all ease;
+    text-align: center;
+    border-radius: 30px;
 }
 .logout{
-    display: grid;
-    gap: 2px;
+    padding: 10px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
 }
-.profile{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 @media (max-width: 480px) {
     .profile-page{
-        padding-top: 130px;
+        padding-top: 90px;
+    }
+    .editprofile{
+        width: 90px;
+       
+    }
+    .logout{
+        gap: 5px;
+     }
+     .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+    .recent-posts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 2fr));
+        gap: 20px;
+    }
+    .details p {
+        font-size: 13px;
     }
 }

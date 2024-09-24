@@ -5,23 +5,18 @@
 }
 .welcometext {
     font-size: 14px;
-
 }
-.profilepic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
+.username{
+    color: #000;
 }
 .userinfocon{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .signinbtn {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: aquamarine;
+    color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,24 +28,16 @@
     transition: 0.3s all ease;
 }
 .signinbtn:hover {
-    background-color: #333333;
+    background-color: rgb(99, 167, 144);
 }
 .googleIcon {
     font-size: 1.2rem;
 }
 .signInText {
-    font-size: 1rem;
-    font-weight: 500;
+    font-weight:bold;
 }
 
 @media (max-width: 768px) {
-    .welcometext {
-        font-size: 12px; 
-    }
-    .profilepic {
-        width: 40px; 
-        height: 40px;
-    }
     .signinbtn {
         padding: 12px 15px; 
         gap: 10px;
@@ -66,25 +53,18 @@
 
 @media (max-width: 480px) {
     .signedinmessage {
-        flex-direction: column; 
         gap: 5px;
-    }
-    .welcometext {
-        font-size: 11px;
-    }
-    .profilepic {
-        width: 35px; 
-        height: 35px;
     }
     .signinbtn {
         padding: 10px 12px; 
-        gap: 8px;
+        gap: px;
         border-radius: 35px;
     }
     .signInText {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
+        font-weight: bold;
     }
     .googleIcon {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 }

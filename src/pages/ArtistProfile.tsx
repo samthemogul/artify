@@ -58,13 +58,26 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ userDetails }) => {
     setCachedUser(updatedDetails);
     setPopupVisible(false);
   };
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   if (user) {
+  //     setIsSignedIn(true);
+  //     saveUser(JSON.parse(user));
+  //   }
+  // }, [saveUser]);
+
+  // useEffect(() => {
+  //   if (cachedUser) {
+  //     setIsSignedIn(true);
+  //   }
+  // }, []);
 
   return (
     <div>
       <Header />
       <div className="profile-page">
      <div className="profile">
-      <div>
+      <div> 
       <img
           className="profile-img"
           src={
@@ -79,21 +92,29 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ userDetails }) => {
           }
         />
       </div>
-      <div className="logout">
+         <div className="details">
+         <h1>{cachedUser?.name
+              ? cachedUser?.name
+              : auth.currentUser?.displayName}</h1> 
+          <p>{cachedUser?.email
+              ? cachedUser?.email
+              : auth.currentUser?.email}</p>
+          <p>{cachedUser?.phone
+              ? cachedUser?.phone
+              : auth.currentUser?.phoneNumber}</p>
+          {/* <p>{cachedUser?.address
+              ? cachedUser?.address
+              : auth.currentUser?.address}</p> */}
+        </div> 
+     </div>
+     <div className="logout">
         <button className="editprofile" title="submit" type="submit" onClick={togglePopupHandler}>
           Edit Profile
         </button>
           <SignOut/>
         </div>
-     </div>
-        <h1>{details.name}</h1>
-        <div className="details">
-          <p>{details.email}</p>
-          <p>{details.phone}</p>
-          <p>{details.address}</p>
-        </div>
+        
         <div className="user-profile">
-          <h2>User's Recent Posts</h2>
           <div className="recent-posts">
             {arts.map((art) => (
               <div key={art.id} className="post-item" onClick={() => handlePostClick(art.id)}>
