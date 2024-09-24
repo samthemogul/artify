@@ -35,8 +35,7 @@ const arts: Art[] = [
         numberOfLikes: 10,
         image: art2,
         comments: [],
-    },
-    
+    }
 ]
 
 
