@@ -1,12 +1,13 @@
 .art-container {
     display: flex;
     flex-direction: column;
-    /* border-bottom: 2px solid #dbdbdb; */
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
     justify-content: center;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
-    background-color: #f6f6f6;
+    background-color: hsl(0, 0%, 96%);
 }
 .art-header {
     display: flex;
@@ -46,8 +47,9 @@
     color: #000000;
 }
 .art-image {
-    width: 100%px;
-    height: 500px;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -141,4 +143,64 @@
     cursor: pointer;
     color: rgb(50, 118, 228);
     font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .art-container {
+        width: 90%; 
+        padding: 15px;
+    }
+    .art-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .artist-name {
+        font-size: 1rem;
+    }
+    .art-image {
+        max-height: 300px; 
+    }
+    .likecomment {
+        gap: 5px; 
+    }
+    .art-name {
+        font-size: 1.2rem; 
+    }
+    .art-description {
+        font-size: 0.9rem;
+    }
+    .view-comment-btn {
+        font-size: 0.8rem; 
+    }
+    .art-icon {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .art-container {
+        width: 100%;
+        padding: 10px;
+    }
+    .art-image {
+        max-height: 200px; 
+    }
+    .artist-name {
+        font-size: 0.9rem;
+    }
+    .art-name {
+        font-size: 1rem;
+    }
+    .likecomment {
+        gap: 5px;
+    }
+    .art-description {
+        font-size: 0.8rem;
+    }
+    .view-comment-btn {
+        font-size: 0.7rem;
+    }
+    .art-icon {
+        font-size: 1.2rem;
+    }
 }

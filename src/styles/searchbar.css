@@ -28,3 +28,33 @@
 .searchicon{
     font-size: 1rem;
 }
+
+@media (max-width: 768px) {
+    .searchbar {
+        max-width: 200px; 
+        height: 45px; 
+        gap: 8px;
+        padding: 0 8px;
+    }
+    .searchinput {
+        font-size: 0.9rem; 
+    }
+    .searchicon {
+        font-size: 0.9rem; 
+    }
+}
+
+@media (max-width: 480px) {
+    .searchbar {
+        max-width: 100px; 
+        height: 40px;
+        gap: 5px;
+        padding: 0 5px;
+    }
+    .searchinput {
+        font-size: 0.8rem; 
+    }
+    .searchicon {
+        font-size: 0.8rem; 
+    }
+}

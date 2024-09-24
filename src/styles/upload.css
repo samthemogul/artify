@@ -1,0 +1,65 @@
+.upload-page-container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.upload-page-title {
+    font-size: 40px;
+    text-align: center;
+}
+.upload-form {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.image-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+.art-view-image {
+    width: 400px;
+    height: 400px;
+    border-radius: 20px;
+}
+.file-pick-button {
+    margin: auto;
+    padding: 15px 30px;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+}
+.name-input, .description-input {
+    padding: 20px;
+    outline: none;
+    border: none;
+    background-color: white;
+    border-radius: 20px;
+    margin: 20px;
+    font-size: 16px;
+    font-family: "Poppins";
+}
+.description-input {
+    resize: none;
+}
+.submit-art-btn {
+    padding: 15px 30px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .file-pick-button {
+        font-size: 0.9rem;
+    }
+}
