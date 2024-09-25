@@ -144,7 +144,24 @@
     color: rgb(50, 118, 228);
     font-weight: 600;
 }
-
+.art{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.art-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.user-name{
+    color: #000000;
+}
+.user-details p {
+    font-size: 16px;
+    color: #000000;
+}
 @media (max-width: 768px) {
     .art-container {
         width: 90%; 

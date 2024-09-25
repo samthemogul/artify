@@ -58,19 +58,7 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ userDetails }) => {
     setCachedUser(updatedDetails);
     setPopupVisible(false);
   };
-  // useEffect(() => {
-  //   const user = localStorage.getItem("user");
-  //   if (user) {
-  //     setIsSignedIn(true);
-  //     saveUser(JSON.parse(user));
-  //   }
-  // }, [saveUser]);
-
-  // useEffect(() => {
-  //   if (cachedUser) {
-  //     setIsSignedIn(true);
-  //   }
-  // }, []);
+ 
 
   return (
     <div>

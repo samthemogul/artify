@@ -5,18 +5,30 @@ import { IoHeartSharp } from "react-icons/io5";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { SetStateAction, useState } from "react";
 import { updateDoc, doc } from "firebase/firestore";
-import { db } from "../api/firebase";
+import { db, auth } from "../api/firebase";
 import CommentPopup from "../pages/CommentPoP";
+import { Link} from "react-router-dom";
+
+
 interface ArtProps {
   key: string;
   art: ArtType;
 }
+
+const getCachedUser = () => {
+  const cachedUserString = localStorage.getItem("user");
+  if (cachedUserString) {
+    return JSON.parse(cachedUserString) || null;
+  }
+  return null;
+};
 
 const Art = ({ art }: ArtProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likesNumber, setLikesNumber ] = useState<number>(art.numberOfLikes)
   const [comment, setComment] = useState("");
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [cachedUser, setCachedUser] = useState(getCachedUser());
 
   const handleLike = () => {
     setIsLiked((prev) => !prev);
@@ -42,17 +54,34 @@ const Art = ({ art }: ArtProps) => {
   };
   return (
     <div className="art-container">
-      {/* <div className="art-header">
-        <div className="art-artist">
-          <img className="art-artist-pic" src={profilePic} alt="profile" />
-          <p className="artist-name">{art.artist}</p>
-        </div>
-        <div className="art-menu">
-          <button className="menu-button">
-            <HiOutlineDotsVertical className="art-menu-icon" />
-          </button>
-        </div>
-      </div> */}
+      <div className="art">
+      <div> 
+      <img
+          className="art-img"
+          src={
+            cachedUser?.imageUrl
+              ? cachedUser.imageUrl
+              : auth.currentUser?.photoURL || ""
+          }
+          alt={
+            cachedUser?.userId
+              ? cachedUser.userId
+              : auth.currentUser?.uid || ""
+          }
+        />
+      </div>
+         <div className="user-details">
+         <p>{cachedUser?.userId ? (
+          <Link className="user-name" to={`/artists/${cachedUser.userId}`}>
+          {cachedUser?.userId}
+          </Link>
+         ): auth.currentUser?.displayName ? (
+          <Link to={`/artists/${auth.currentUser.uid}`}>
+            {auth.currentUser.displayName}
+          </Link>
+         ) : null}</p> 
+        </div> 
+     </div>
       <img className="art-image" src={art.image} alt={art.name} />
       <div className="like-and-comment">
         <div className="likecomment">

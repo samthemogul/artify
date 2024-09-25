@@ -13,6 +13,7 @@ export interface Art {
   numberOfLikes: number;
   image: string;
   comments: string[];
+  userId: string;
 }
 
 const Home = () => {
@@ -24,8 +25,6 @@ const Home = () => {
         const artsRef = collection(db, "arts");
         const artsData = await getDocs(artsRef);
         const artsArray = artsData.docs.map(async (doc) => {
-          // const artistInfo = await getUserInfo(doc.data().userId);
-          // console.log(artistInfo)
           return {
             id: doc.id,
             name: doc.data().name,
@@ -33,7 +32,7 @@ const Home = () => {
             numberOfLikes: doc.data().likes,
             image: doc.data().imageUrl,
             comments: [],
-          };
+            userId: doc.data().userId          };
         });
         setArts(await Promise.all(artsArray));
       } catch (error) {

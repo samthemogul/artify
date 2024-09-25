@@ -14,10 +14,6 @@ function App() {
     address: "",
   };
 
-  // const togglePopup = () => {
-  //   console.log("");
-  // };
-
   return (
     <BrowserRouter>
       <Routes>
