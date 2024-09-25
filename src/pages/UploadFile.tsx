@@ -72,9 +72,11 @@ const UploadFile = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
     const user = auth.currentUser;
     if (!user) {
       alert("Please login to create an art");
+      return
     } else {
       setLoading(true);
       e.preventDefault();

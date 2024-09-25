@@ -22,12 +22,12 @@ function App() {
         <Route path="/new" element={<UploadFile />} />
 
         <Route 
-          path="/artists/:userId" 
           element={
             <ArtistProfile 
-              userId={1}  
-              userDetails={userDetails} 
-              // togglePopup={togglePopup} 
+              userId={1}
+              userDetails={userDetails} togglePopup={function (): void {
+                throw new Error("Function not implemented.");
+              } }              
             />
           } 
         />

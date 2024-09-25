@@ -17,7 +17,7 @@ const UserInfo = () => {
   const [cachedUser, setCachedUser] = useState(getCachedUser());
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(!!cachedUser?.name.length);
-  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false); 
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const { saveUser } = useUser() || {
     user: null,
     saveUser: () => {},
@@ -28,8 +28,8 @@ const UserInfo = () => {
   };
 
   const signInWithGoogle = async () => {
-    try{
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
 
     if (auth.currentUser) {
       const signedInUser = {
@@ -45,6 +45,7 @@ const UserInfo = () => {
       togglePopup();
       navigate(`/artists/${auth.currentUser.uid}`);
     }
+
     } catch (error) {
       console.error("Google Sign-In Error: ", error);
     }
@@ -68,10 +69,11 @@ const UserInfo = () => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
+      console.log(JSON.parse(user));
       setIsSignedIn(true);
       saveUser(JSON.parse(user));
     }
-  }, [saveUser]);
+  }, []);
 
   useEffect(() => {
     if (cachedUser) {
@@ -99,6 +101,20 @@ const UserInfo = () => {
               </Link>
             ) : null}
           </h3>
+          <img
+          className='profilepic'
+            src={
+              cachedUser?.imageUrl
+                ? cachedUser?.imageUrl
+                : auth.currentUser?.photoURL || ""
+            }
+            alt={
+              cachedUser?.name
+                ? cachedUser?.name
+                : auth.currentUser?.displayName
+            }
+          />
+
           {isPopupVisible && (
             <UserProfile
               isPopupVisible={isPopupVisible}
